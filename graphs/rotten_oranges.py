@@ -22,7 +22,7 @@ def rotten_oranges(graph):
             for dx,dy in directions:
                 nx,ny = x+dx, y+dy
 
-                if 0<=nx<m and o<=ny<n and graph[nx][ny]==1:
+                if 0<=nx<m and 0<=ny<n and graph[nx][ny]==1:
                     graph[nx][ny]==2
                     fresh_oranges-=1
                     queue.append((nx,ny))

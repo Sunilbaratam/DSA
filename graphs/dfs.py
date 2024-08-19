@@ -2,16 +2,22 @@
 # Recursive DFS
 # Graph is the adj.list of that given graph
 
-dfs_list = []
-def recursive_dfs(graph, node, visited=None):
-    if visited is None:
-        visited = set()
+def dfsOfGraph(self, V, adj):
+        dfs_list = []
     
-    visited.add(node)
-    dfs_list.append(node)
-    for neighbour in graph[node]:
-        if neighbour not in visited:
-            recursive_dfs(graph, neighbour, visited)
+        def dfs(v, visited):
+            visited.add(v)
+            dfs_list.append(v)
+            
+            for neighbour in adj[v]:
+                if neighbour not in visited:
+                    dfs(neighbour, visited)
+        
+        visited = set()
+        dfs(0, visited)  # Start DFS from vertex 0
+        
+        return dfs_list
+
 
 
 # Iterative DFS
