@@ -1,31 +1,30 @@
 from collections import deque
-
-def rotten_oranges(graph):
-    m,n = len(graph), len(graph[0])
-
-    queue = deque()
-    fresh_oranges = 0
-
-    for i in range(m-1):
-        for j in range(n-1):
-            if graph[i][j]==1:
-                fresh_oranges+=1
-            elif graph[i][j]==2:
-                queue.append((i,j))
-
-    minutes_elapsed = 0 
-    directions = [(-1,0), (1,0), (0,1), (0,-1)]
-    while queue and fresh_oranges>0:
-        minutes_elapsed+=1
-        for _ in queue:
-            x,y = queue.popleft()
-            for dx,dy in directions:
-                nx,ny = x+dx, y+dy
-
-                if 0<=nx<m and 0<=ny<n and graph[nx][ny]==1:
-                    graph[nx][ny]==2
-                    fresh_oranges-=1
-                    queue.append((nx,ny))
-    
-    return minutes_elapsed if fresh_oranges==0 else -1
-
+class Solution(object):
+    def orangesRotting(self, grid):
+        queue = deque()
+        n,m = len(grid),len(grid[0])
+        count, time = 0, -1
+        dirs = [(1,0),(0,1),(-1,0),(0,-1)]
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j]==1:
+                    count+=1
+                elif grid[i][j]==2:
+                    queue.append((i,j))
+        while len(queue)>0:
+            rotten = []
+            while len(queue)>0:
+                rotten.append(queue.popleft())
+            for orange in rotten:
+                i,j = orange
+                for a,b in dirs:
+                    new_i, new_j = i+a, j+b
+                    if 0<=new_i<n and 0<=new_j<m and grid[new_i][new_j]==1:
+                        count-=1
+                        grid[new_i][new_j]=2
+                        queue.append((new_i,new_j))
+            time+=1
+        if not count:
+            return max(time,0)
+        else:
+            return -1
